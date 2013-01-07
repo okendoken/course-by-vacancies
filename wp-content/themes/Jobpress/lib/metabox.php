@@ -1,4 +1,7 @@
 <?php
+/*
+ * additional fields displayed when post is being saved
+ */
 $prefix = 'wtf_';
 
 $meta_box = array(

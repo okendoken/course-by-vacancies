@@ -1,5 +1,10 @@
 <?php
 /*
+ * job type widget when creating a job post
+ * actually is not just job-type widget, it's a widget which is inserted to all post pages despite their "type"
+ * todo we don't need this plugin
+ */
+/*
 Plugin Name: Radio Taxonomy
 Plugin URI: http://www.bundy.ca/radio-taxonomy
 Description: Make your taxonomies into radio buttons. Easy!
@@ -98,6 +103,6 @@ class RadioTaxonomyMB {
 		}
 	}
 }
-new RadioTaxonomyMB;
+//new RadioTaxonomyMB;
 }
 ?>

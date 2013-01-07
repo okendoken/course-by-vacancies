@@ -5,7 +5,6 @@ include 'guide.php';
 include 'theme_options.php';
 include 'lib/metabox.php';
 include 'lib/post-types.php';
-include 'lib/radio-taxonomy.php'; 
 include 'lib/blog-widget.php'; 	
 include 'lib/job-widget.php'; 
 	

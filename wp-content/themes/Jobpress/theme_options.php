@@ -1,8 +1,11 @@
 <?php
-
+/*
+    Theme options page
+    http://localhost/vacancies/wp-admin/themes.php?page=theme_options.php
+*/
 $themename = "Jobpress";
 $shortname = "job";
-$zm_categories_obj = get_categories('hide_empty=0');
+$zm_categories_obj = get_categories('hide_empty=0');  //hide_empty default is true
 $zm_categories = array();
 foreach ($zm_categories_obj as $zm_cat) {
 $zm_categories[$zm_cat->cat_ID] = $zm_cat->category_nicename;

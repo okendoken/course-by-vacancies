@@ -1,5 +1,7 @@
 <?php 
-
+/*
+  * Some specific file which create special post type - job and appropriate taxonomies
+  */
 /* Jobs post type*/
 
 function post_type_jobs() {
@@ -11,7 +13,7 @@ register_post_type(
 							'hierarchical' => false,
 							'menu_icon' => get_stylesheet_directory_uri() . '/images/job.png',
                     		'labels'=>array(
-    									'name' => _x('Job', 'post type general name'),
+    									'name' => _x('Jobs', 'post type general name'),
     									'singular_name' => _x('Job', 'post type singular name'),
     									'add_new' => _x('Add New', 'Job'),
     									'add_new_item' => __('Add New Job'),
@@ -71,21 +73,21 @@ add_action( 'init', 'create_job_type_taxonomy', 0 );
 /* ADD custom terms */
 
 function add_job_term_fulltime() {
-if(!is_term('Full-time', 'job_type')){
+if(!term_exists('Full-time', 'job_type')){
   wp_insert_term('Full-time', 'job_type');
 }
 }
 add_action( 'init', 'add_job_term_fulltime' );
 
 function add_job_term_parttime() {
-if(!is_term('Part-time', 'job_type')){
+if(!term_exists('Part-time', 'job_type')){
   wp_insert_term('Part-time', 'job_type');
 }
 }
 add_action( 'init', 'add_job_term_parttime' );
 
 function add_job_term_contract() {
-if(!is_term('Contract', 'job_type')){
+if(!term_exists('Contract', 'job_type')){
   wp_insert_term('Contract', 'job_type');
 }
 }
@@ -93,14 +95,14 @@ add_action( 'init', 'add_job_term_contract' );
 
 
 function add_job_term_freelance() {
-if(!is_term('Freelance', 'job_type')){
+if(!term_exists('Freelance', 'job_type')){
   wp_insert_term('Freelance', 'job_type');
 }
 }
 add_action( 'init', 'add_job_term_freelance' );
 
 function add_job_term_internship() {
-if(!is_term('Internship', 'job_type')){
+if(!term_exists('Internship', 'job_type')){
   wp_insert_term('Internship', 'job_type');
 }
 }
