@@ -14,8 +14,6 @@
 
 <?php 
  wp_enqueue_script('jquery');
- wp_enqueue_script('effects', get_stylesheet_directory_uri() .'/js/effects.js');
- wp_enqueue_script('superfish', get_stylesheet_directory_uri() .'/js/superfish.js');
 ?>
 
 <?php wp_get_archives('type=monthly&format=link'); ?>
