@@ -1,6 +1,6 @@
 <?php
 /*
- * additional fields displayed when JOB post is being saved
+ * additional fields displayed when post is being saved
  */
 $prefix = 'wtf_';
 

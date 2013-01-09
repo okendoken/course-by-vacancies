@@ -11,13 +11,34 @@ Author: Okendoken
 Author URI: http://okendoken.com/
 License: GPLv2 or later
 */
-add_filter( 'page_template', 'wpa3396_page_template' );
-function wpa3396_page_template( $page_template )
+include 'guide.php';
+include 'theme_options.php';
+include 'lib/metabox.php';
+include 'lib/post-types.php';
+include 'lib/blog-widget.php';
+include 'lib/job-widget.php';
+
+add_filter( 'page_template', 'vc_page_template' );
+function vc_page_template( $page_template )
 {
-    if ( is_page() and 1 == get_post_meta(get_the_ID(), '_vc_page_template', true)) {
-        $page_template = dirname( __FILE__ ) . '/custom-page-template.php';
+    if (is_page()){
+        $page_template_meta = get_post_meta(get_the_ID(), '_vc_page_template', true);
+        if (1 == $page_template_meta) {
+            $page_template = dirname( __FILE__ ) . '/index-jobs.php';
+        } else if (2 == $page_template_meta) {
+            $page_template = dirname( __FILE__ ) . '/jobform.php';
+        }
     }
     return $page_template;
+}
+
+add_filter( 'single_template', 'vc_post_template' );
+function vc_post_template( $post_template )
+{
+    if (is_single() and get_post_type() == 'job'){
+        $post_template = dirname( __FILE__ ).'/single-job.php';
+    }
+    return $post_template;
 }
 
 
@@ -89,4 +110,47 @@ function myplugin_save_postdata( $post_id ) {
     add_post_meta($post_ID, '_vc_page_template', $mydata, true) or
         update_post_meta($post_ID, '_vc_page_template', $mydata);
     // or a custom table (see Further Reading section below)
+}
+
+add_filter('wp_head', 'vc_add_styles');
+function vc_add_styles(){
+    wp_enqueue_style('my-style',plugins_url( 'style.css' , __FILE__));
+}
+
+/* FEATURED THUMBNAILS */
+
+if ( function_exists( 'add_theme_support' ) ) { // Added in 2.9
+    add_theme_support( 'post-thumbnails' );
+}
+
+/* SHORT TITLES */
+
+function short_title($after = '', $length) {
+    $mytitle = explode(' ', get_the_title(), $length);
+    if (count($mytitle)>=$length) {
+        array_pop($mytitle);
+        $mytitle = implode(" ",$mytitle). $after;
+    } else {
+        $mytitle = implode(" ",$mytitle);
+    }
+    return $mytitle;
+}
+
+/* PAGE NAVIGATION */
+
+
+function getpagenavi(){
+    ?>
+<div id="navigation" class="clearfix">
+    <?php if(function_exists('wp_pagenavi')) : ?>
+    <?php wp_pagenavi() ?>
+    <?php else : ?>
+    <div class="alignleft"><?php next_posts_link(__('&laquo; Older Entries','web2feeel')) ?></div>
+    <div class="alignright"><?php previous_posts_link(__('Newer Entries &raquo;','web2feel')) ?></div>
+    <div class="clear"></div>
+    <?php endif; ?>
+
+</div>
+
+<?php
 }
