@@ -41,39 +41,48 @@ function vc_post_template( $post_template )
     return $post_template;
 }
 
+add_filter( 'archive_template', 'vc_archive_template' );
+function vc_archive_template( $archive_template )
+{
+    if ( get_post_type() == 'job' ) {
+        $archive_template = dirname( __FILE__ ) . '/index-jobs.php';
+    }
+    return $archive_template;
+}
 
-add_action( 'add_meta_boxes', 'myplugin_add_custom_box' );
+
+add_action( 'add_meta_boxes', 'vc_add_custom_box' );
 
 /* Do something with the data entered */
-add_action( 'save_post', 'myplugin_save_postdata' );
+add_action( 'save_post', 'vc_save_postdata' );
 
 /* Adds a box to the main column on the Post and Page edit screens */
-function myplugin_add_custom_box() {
+function vc_add_custom_box() {
     add_meta_box(
         'myplugin_sectionid',
         __( 'My Post Section Title', 'myplugin_textdomain' ),
-        'myplugin_inner_custom_box',
+        'vc_inner_custom_box',
         'page'
     );
 }
 
 /* Prints the box content */
-function myplugin_inner_custom_box( $post ) {
+function vc_inner_custom_box( $post ) {
 
     // Use nonce for verification
-    wp_nonce_field( plugin_basename( __FILE__ ), 'myplugin_noncename' );
+    wp_nonce_field( plugin_basename( __FILE__ ), 'vc_noncename' );
 
     // The actual fields for data entry
     // Use get_post_meta to retrieve an existing value from the database and use the value for the form
     $value = get_post_meta( get_the_ID(), $key = '_vc_page_template', $single = true );
-    echo '<label for="myplugin_new_field">';
+    echo '<label for="vc_new_field">';
     _e("Description for this field", 'myplugin_textdomain' );
     echo '</label> ';
-    echo '<input type="text" id="myplugin_new_field" name="myplugin_new_field" value="'.$value.'" size="25" />';
+    echo '<input type="text" id="vc_new_field" name="vc_new_field" value="'.$value.'" size="25" />';
 }
 
 /* When the post is saved, saves our custom data */
-function myplugin_save_postdata( $post_id ) {
+function vc_save_postdata( $post_id ) {
     // verify if this is an auto save routine.
     // If it is our form has not been submitted, so we dont want to do anything
     if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
@@ -82,7 +91,7 @@ function myplugin_save_postdata( $post_id ) {
     // verify this came from the our screen and with proper authorization,
     // because save_post can be triggered at other times
 
-    if ( !wp_verify_nonce( $_POST['myplugin_noncename'], plugin_basename( __FILE__ ) ) )
+    if ( !wp_verify_nonce( $_POST['vc_noncename'], plugin_basename( __FILE__ ) ) )
         return;
 
 
@@ -103,7 +112,7 @@ function myplugin_save_postdata( $post_id ) {
     //if saving in a custom table, get post_ID
     $post_ID = $_POST['post_ID'];
     //sanitize user input
-    $mydata = sanitize_text_field( $_POST['myplugin_new_field'] );
+    $mydata = sanitize_text_field( $_POST['vc_new_field'] );
 
     // Do something with $mydata
     // either using
